@@ -2,6 +2,8 @@ package com.travel.travelbookingsystem.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -27,6 +29,9 @@ public class Booking {
     @Column(name = "seat_number", length = 10, nullable = false)
     private String seatNumber;
 
+    @Column(name = "travel_date", nullable = false)
+    private LocalDate travelDate;
+    
     @Enumerated(EnumType.STRING)
     @Column(name = "booking_status", nullable = false)
     private BookingStatus bookingStatus;
@@ -85,6 +90,14 @@ public class Booking {
 		this.seatNumber = seatNumber;
 	}
 
+	public LocalDate getTravelDate() {
+		return travelDate;
+	}
+
+	public void setTravelDate(LocalDate travelDate) {
+		this.travelDate = travelDate;
+	}
+
 	public BookingStatus getBookingStatus() {
 		return bookingStatus;
 	}
@@ -108,8 +121,19 @@ public class Booking {
 	public void setBookingDate(LocalDateTime bookingDate) {
 		this.bookingDate = bookingDate;
 	}
-    
-    
+
+	@Override
+	public String toString() {
+		return "Booking [bookingId=" + bookingId + ", passenger=" + passenger + ", transportType=" + transportType
+				+ ", transportId=" + transportId + ", seatNumber=" + seatNumber + ", travelDate=" + travelDate
+				+ ", bookingStatus=" + bookingStatus + ", paymentStatus=" + paymentStatus + ", bookingDate="
+				+ bookingDate + ", getBookingId()=" + getBookingId() + ", getPassenger()=" + getPassenger()
+				+ ", getTransportType()=" + getTransportType() + ", getTransportId()=" + getTransportId()
+				+ ", getSeatNumber()=" + getSeatNumber() + ", getTravelDate()=" + getTravelDate()
+				+ ", getBookingStatus()=" + getBookingStatus() + ", getPaymentStatus()=" + getPaymentStatus()
+				+ ", getBookingDate()=" + getBookingDate() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode()
+				+ ", toString()=" + super.toString() + "]";
+	}
     
 }
 

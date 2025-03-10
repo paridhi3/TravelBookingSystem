@@ -4,6 +4,7 @@ import com.travel.travelbookingsystem.entity.Flight;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import jakarta.transaction.Transactional;
 
@@ -27,8 +28,14 @@ public interface FlightRepository extends JpaRepository<Flight, Long> {
     List<Flight> findByPriceBetween(double minPrice, double maxPrice);
 
     // ✅ Update available seats
-    @Modifying
-    @Transactional
-    @Query("UPDATE Flight f SET f.availableSeats = :newSeats WHERE f.flightId = :flightId")
-    int updateAvailableSeats(Long flightId, int newSeats);
+//    @Modifying
+//    @Transactional
+//    @Query("UPDATE Flight f SET f.availableSeats = :newSeats WHERE f.flightId = :flightId")
+//    int updateAvailableSeats(Long flightId, int newSeats);
+    
+//    @Modifying
+//    @Transactional
+//    @Query("UPDATE Flight f SET f.availableSeats = f.availableSeats - 1 WHERE f.flightId = :flightId AND f.availableSeats > 0")
+//    int updateAvailableSeats(@Param("flightId") Long flightId);
+
 }

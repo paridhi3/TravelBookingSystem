@@ -75,11 +75,11 @@ public class FlightService {
 //    }
     
     // use either method
-    @Transactional
-    public boolean reduceAvailableSeats(Long flightId) {
-        int rowsUpdated = flightRepository.updateAvailableSeats(flightId, 1);
-        return rowsUpdated > 0; // Returns true if update was successful
-    }
+//    @Transactional
+//    public boolean reduceAvailableSeats(Long flightId) {
+//        int rowsUpdated = flightRepository.updateAvailableSeats(flightId);
+//        return rowsUpdated > 0; // Returns true if update was successful
+//    }
 
     // Delete a flight by ID (JPA provides deleteById())
     public void deleteFlightById(long flightId) {
@@ -94,5 +94,9 @@ public class FlightService {
     // Retrieve flights within a specific price range (JPA supports derived query methods)
     public List<Flight> getFlightsByPriceRange(double minPrice, double maxPrice) {
         return flightRepository.findByPriceBetween(minPrice, maxPrice);
+    }
+
+    public boolean existsById(Long id) {
+        return flightRepository.existsById(id);
     }
 }

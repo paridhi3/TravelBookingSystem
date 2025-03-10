@@ -35,8 +35,8 @@ public class Bus {
     @Column(name = "total_seats", nullable = false)
     private int totalSeats;
     
-    @Column(name = "available_seats", nullable = false)
-    private int availableSeats;
+//    @Column(name = "available_seats", nullable = false)
+//    private int availableSeats;
     
     @Column(name = "price", nullable = false)
     private double price;
@@ -101,13 +101,13 @@ public class Bus {
 		this.totalSeats = totalSeats;
 	}
 
-	public int getAvailableSeats() {
-		return availableSeats;
-	}
-
-	public void setAvailableSeats(int availableSeats) {
-		this.availableSeats = availableSeats;
-	}
+//	public int getAvailableSeats() {
+//		return availableSeats;
+//	}
+//
+//	public void setAvailableSeats(int availableSeats) {
+//		this.availableSeats = availableSeats;
+//	}
 
 	public double getPrice() {
 		return price;

@@ -75,11 +75,11 @@ public class TrainService {
 //    }
     
     // use either method
-    @Transactional
-    public boolean reduceAvailableSeats(Long trainId) {
-        int rowsUpdated = trainRepository.updateAvailableSeats(trainId, 1);
-        return rowsUpdated > 0; // Returns true if update was successful
-    }
+//    @Transactional
+//    public boolean reduceAvailableSeats(Long trainId) {
+//        int rowsUpdated = trainRepository.updateAvailableSeats(trainId);
+//        return rowsUpdated > 0; // Returns true if update was successful
+//    }
 
     // Delete a train by ID
     public void deleteTrainById(long trainId) {
@@ -94,5 +94,9 @@ public class TrainService {
     // Retrieve trains within a specific price range
     public List<Train> getTrainsByPriceRange(double minPrice, double maxPrice) {
         return trainRepository.findByPriceBetween(minPrice, maxPrice); // Custom JPA method
+    }
+    
+    public boolean existsById(Long id) {
+        return trainRepository.existsById(id);
     }
 }

@@ -51,11 +51,11 @@ public class BusService {
     }
 
     // Reduce available seats when a booking is made
-    @Transactional
-    public boolean reduceAvailableSeats(Long busId) {
-        int rowsUpdated = busRepository.updateAvailableSeats(busId, 1);
-        return rowsUpdated > 0; // Returns true if the update was successful
-    }
+//    @Transactional
+//    public boolean reduceAvailableSeats(Long busId) {
+//        int rowsUpdated = busRepository.updateAvailableSeats(busId);
+//        return rowsUpdated > 0; // Returns true if the update was successful
+//    }
 
     // Delete a bus by ID
     public void deleteBusById(long busId) {
@@ -70,5 +70,9 @@ public class BusService {
     // Retrieve buses within a price range
     public List<Bus> getBusesByPriceRange(double minPrice, double maxPrice) {
         return busRepository.findByPriceBetween(minPrice, maxPrice);
+    }
+    
+    public boolean existsById(Long id) {
+        return busRepository.existsById(id);
     }
 }
