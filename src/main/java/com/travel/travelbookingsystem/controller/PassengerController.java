@@ -2,8 +2,14 @@ package com.travel.travelbookingsystem.controller;
 
 import com.travel.travelbookingsystem.entity.Passenger;
 import com.travel.travelbookingsystem.service.PassengerService;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,10 +20,32 @@ import java.util.List;
 public class PassengerController {
 
     private final PassengerService passengerService;
+    
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
     // Constructor-based injection
     public PassengerController(PassengerService passengerService) {
         this.passengerService = passengerService;
+    }
+    
+    // Register a new passenger
+    @PostMapping("/register")
+    public String registerPassenger(@ModelAttribute Passenger passenger) {
+        // Encode the password before saving to the database
+        passengerService.registerPassenger(passenger);
+        return "Passenger Successfully Registered!";  // Redirect to login page after successful registration
+    }
+
+    // Handle login (this is handled by Spring Security, but you can add custom logic if needed)
+    @PostMapping("/req/login")
+    public String loginPassenger(@ModelAttribute Passenger passenger) {
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(passenger.getEmail(), passenger.getPassword())
+        );
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        return "Login Successful!"; 
     }
 
     // Retrieve all passengers
@@ -44,26 +72,19 @@ public class PassengerController {
                     .body("Error fetching passenger: " + e.getMessage());
         }
     }
-
-//    @PostMapping("/login")
-//    public ResponseEntity<String> login(@RequestParam String email, @RequestParam String password) {
-//        boolean isAuthenticated = passengerService.authenticatePassenger(email, password);
-//        return isAuthenticated ? ResponseEntity.ok("Login successful")
-//                               : ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
-//    }
     
-    // Add a new passenger
-    @PostMapping
-    public ResponseEntity<String> createPassenger(@RequestBody Passenger passenger) {
-        try {
-            passengerService.addPassenger(passenger);
-            return ResponseEntity.status(HttpStatus.CREATED)
-                    .body("Passenger added successfully");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error adding passenger: " + e.getMessage());
-        }
-    }
+//    // Add a new passenger
+//    @PostMapping
+//    public ResponseEntity<String> createPassenger(@RequestBody Passenger passenger) {
+//        try {
+//            passengerService.addPassenger(passenger);
+//            return ResponseEntity.status(HttpStatus.CREATED)
+//                    .body("Passenger added successfully");
+//        } catch (Exception e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+//                    .body("Error adding passenger: " + e.getMessage());
+//        }
+//    }
 
     // Delete a passenger by ID
     @DeleteMapping("/{id}")

@@ -2,6 +2,13 @@ package com.travel.travelbookingsystem.service;
 
 import com.travel.travelbookingsystem.entity.Passenger;
 import com.travel.travelbookingsystem.repository.PassengerRepository;
+
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.List;
 //import java.util.Optional;
@@ -16,11 +23,34 @@ import java.util.List;
  */
 
 @Service
-public class PassengerService {
+public class PassengerService implements UserDetailsService {
     private final PassengerRepository passengerRepository;
     
     public PassengerService(PassengerRepository passengerRepository) {
         this.passengerRepository = passengerRepository;
+    }
+    
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        Passenger passenger = passengerRepository.findByEmail(email);
+        if (passenger == null) {
+            throw new UsernameNotFoundException("Passenger not found with email: " + email);
+        }
+        return User.withUsername(passenger.getEmail())
+                   .password(passenger.getPassword())
+                   .build();
+    }
+
+    // Optional: method for registering passengers
+    public Passenger registerPassenger(Passenger passenger) {
+        passenger.setPassword(passwordEncoder().encode(passenger.getPassword()));
+        System.out.println("Passenger "+passenger.getFull_name()+" successfully registered!");
+        return passengerRepository.save(passenger);
+    }
+
+    // Encoder for passwords
+    private PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
     // Retrieve all passengers
