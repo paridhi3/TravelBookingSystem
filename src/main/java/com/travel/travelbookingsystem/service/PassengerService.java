@@ -1,8 +1,5 @@
 package com.travel.travelbookingsystem.service;
 
-import com.travel.travelbookingsystem.entity.Passenger;
-import com.travel.travelbookingsystem.repository.PassengerRepository;
-
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -10,24 +7,24 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import java.util.List;
-//import java.util.Optional;
 
-/**
- * PassengerService Methods:
- * 1. getAllPassengers() -> List<Passenger>
- * 2. getPassengerById(long id) -> Passenger
- * 3. addPassenger(Passenger passenger) -> Passenger
- * 4. deletePassenger(long id) -> void
- * 5. getPassengerByEmail(String email) -> Passenger
- */
+import com.travel.travelbookingsystem.entity.Passenger;
+import com.travel.travelbookingsystem.repository.PassengerRepository;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Service
 public class PassengerService implements UserDetailsService {
-    private final PassengerRepository passengerRepository;
     
-    public PassengerService(PassengerRepository passengerRepository) {
+    private final PassengerRepository passengerRepository;
+    private final PasswordEncoder passwordEncoder;
+
+    @Autowired
+    public PassengerService(PassengerRepository passengerRepository, PasswordEncoder passwordEncoder) {
         this.passengerRepository = passengerRepository;
+        this.passwordEncoder = passwordEncoder;
     }
     
     @Override
@@ -38,20 +35,41 @@ public class PassengerService implements UserDetailsService {
         }
         return User.withUsername(passenger.getEmail())
                    .password(passenger.getPassword())
+                   .roles("USER")  // Add role
                    .build();
     }
 
-    // Optional: method for registering passengers
+//    // Register a new passenger
+//    public Passenger registerPassenger(Passenger passenger) {
+//    	System.out.println(passenger);
+//    	if (passenger.getPassword() == null || passenger.getPassword().isEmpty()) {
+//            throw new IllegalArgumentException("Password cannot be null or empty");
+//        }
+//        passenger.setPassword(passwordEncoder.encode(passenger.getPassword())); // Encrypt password
+//        System.out.println("Raw Password at Registration: '" + passenger.getPassword() + "'");
+//        System.out.println("Passenger " + passenger.getFull_name() + " successfully registered!");
+//        return passengerRepository.save(passenger);
+//    }
+    
     public Passenger registerPassenger(Passenger passenger) {
-        passenger.setPassword(passwordEncoder().encode(passenger.getPassword()));
-        System.out.println("Passenger "+passenger.getFull_name()+" successfully registered!");
+        System.out.println("Received Passenger: " + passenger);
+
+        if (passenger.getPassword() == null || passenger.getPassword().isEmpty()) {
+            throw new IllegalArgumentException("Password cannot be null or empty");
+        }
+
+        // Check if password is already hashed
+        if (!passenger.getPassword().startsWith("$2a$")) { // BCrypt hashes start with "$2a$"
+            passenger.setPassword(passwordEncoder.encode(passenger.getPassword())); // Encrypt password
+            System.out.println("Hashed Password at Registration: '" + passenger.getPassword() + "'");
+        } else {
+            System.out.println("Warning: Password was already hashed before registration!");
+        }
+
+        System.out.println("Passenger " + passenger.getFull_name() + " successfully registered!");
         return passengerRepository.save(passenger);
     }
 
-    // Encoder for passwords
-    private PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
 
     // Retrieve all passengers
     public List<Passenger> getAllPassengers() {
@@ -77,9 +95,8 @@ public class PassengerService implements UserDetailsService {
     public void deletePassenger(long id) {
         passengerRepository.deleteById(id);
     }
-    
+
     public boolean existsById(Long id) {
         return passengerRepository.existsById(id);
     }
-
 }

@@ -1,5 +1,7 @@
 package com.travel.travelbookingsystem.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -12,10 +14,11 @@ public class Passenger {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Specifies auto-increment behavior for the primary key (passengerId).
     private long passengerId;
 
+    @JsonProperty("fullName")  // Ensures JSON field "fullName" maps to "full_name"
     @Column(name = "full_name", nullable = false)
     private String full_name;
     
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
     
     @Column(name = "password", nullable = false)
@@ -85,6 +88,13 @@ public class Passenger {
 	public void setContact(String contact) {
 		this.contact = contact;
 	}
+
+	@Override
+	public String toString() {
+		return "Passenger [passengerId=" + passengerId + ", full_name=" + full_name + ", email=" + email + ", password="
+				+ password + ", gender=" + gender + ", age=" + age + ", contact=" + contact + "]";
+	}
     
+	
     
 }
