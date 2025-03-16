@@ -12,6 +12,7 @@ import com.travel.travelbookingsystem.entity.Passenger;
 import com.travel.travelbookingsystem.repository.PassengerRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -52,7 +53,8 @@ public class PassengerService implements UserDetailsService {
 //    }
     
     public Passenger registerPassenger(Passenger passenger) {
-        System.out.println("Received Passenger: " + passenger);
+        System.out.println("Register passenger: " + passenger);
+        System.out.println("Password from database: "+passenger.getPassword());
 
         if (passenger.getPassword() == null || passenger.getPassword().isEmpty()) {
             throw new IllegalArgumentException("Password cannot be null or empty");
@@ -69,6 +71,41 @@ public class PassengerService implements UserDetailsService {
         System.out.println("Passenger " + passenger.getFull_name() + " successfully registered!");
         return passengerRepository.save(passenger);
     }
+    
+//    public boolean register(UserAuthentication user) {
+//        Optional<UserAuthentication> existingUser = userRepository.findByUsername(user.getUsername());
+//        if (existingUser.isPresent()) {
+//            return false; // Username already exists
+//        }
+//
+//        // Hash the password before saving
+//        String hashedPassword = passwordEncoder.encode(user.getPasswordHash());
+//        user.setPasswordHash(hashedPassword);
+//
+//        return userRepository.save(user) > 0;
+//    }
+    
+    // Authenticate user (for login)
+    public boolean authenticate(String email, String password) {
+        Passenger passenger = passengerRepository.findByEmail(email);
+        
+        System.out.println("Login passenger: "+passenger);
+
+        if (passenger != null) { // Check if the passenger exists
+            // Debugging logs (remove in production)
+            System.out.println("Entered Password: " + password);
+            System.out.println("Stored Hashed Password from database: " + passenger.getPassword());
+            System.out.println("Password Matches: " + passwordEncoder.matches(password, passenger.getPassword()));
+
+            // Verify password using BCrypt
+            return passwordEncoder.matches(password, passenger.getPassword());
+        }
+
+        return false; // User not found
+    }
+
+
+
 
 
     // Retrieve all passengers

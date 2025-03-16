@@ -51,55 +51,27 @@ public class PassengerController {
     }
 
 
-    // Login Passenger
-//    @PostMapping("/req/login")
-//    public ResponseEntity<String> loginPassenger(@RequestBody Passenger passenger) {
-//        Passenger existingPassenger = passengerService.getPassengerByEmail(passenger.getEmail());
-//        
-//        if (existingPassenger == null || passenger.getPassword() == null || 
-//            !passwordEncoder.matches(passenger.getPassword(), existingPassenger.getPassword())) {
-//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
-//        }
-//
-//        // Authenticate the user (optional if not using Spring Security)
-//        Authentication authentication = authenticationManager.authenticate(
-//                new UsernamePasswordAuthenticationToken(passenger.getEmail(), passenger.getPassword())
-//        );
-//        SecurityContextHolder.getContext().setAuthentication(authentication);
-//
-//        return ResponseEntity.ok("Login Successful for " + existingPassenger.getFull_name() + "!");
-//    }
-    
+    // Login Passenger    
     @PostMapping("/req/login")
-    public ResponseEntity<String> loginPassenger(@RequestBody Passenger passenger) {
+    public ResponseEntity<?> loginPassenger(@RequestBody Passenger passenger) {
+        boolean isAuthenticated = passengerService.authenticate(passenger.getEmail(), passenger.getPassword());
+
+        if (!isAuthenticated) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
+        }
+
         Passenger existingPassenger = passengerService.getPassengerByEmail(passenger.getEmail());
 
-        if (existingPassenger == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
-        }
-
-        // Debug logs
-        System.out.println("Entered Password: " + passenger.getPassword());
-        System.out.println("Stored Hashed Password: " + existingPassenger.getPassword());
-        System.out.println("Password Matches: " + passwordEncoder.matches(passenger.getPassword(), existingPassenger.getPassword()));
-        System.out.println("---------------------------------------------------------------------------------------------------");
-        String hashed = passwordEncoder.encode("hello");
-        System.out.println("Manually Hashed: " + hashed);
-        System.out.println("Matches: " + passwordEncoder.matches("hello", hashed));
-        System.out.println("---------------------------------------------------------------------------------------------------");
-        String storedHash = "$2a$10$TbPJ8wZA3kHWCBqJxssqLOpvrNQaqoPoGdGNoSn7eeO.WHeGMzfuK"; // from DB
-        String enteredPassword = "hello";
-        System.out.println("Matches Manually: " + passwordEncoder.matches(enteredPassword, storedHash));
-
-
-
-        if (!passwordEncoder.matches(passenger.getPassword(), existingPassenger.getPassword())) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
-        }
-
-        return ResponseEntity.ok("Login Successful for " + existingPassenger.getFull_name() + "!");
+        System.out.println("Login Successful for " + existingPassenger.getFull_name() + "!");
+        return ResponseEntity.ok(existingPassenger);
     }
-
+    
+    // Logout Passenger
+    @PostMapping("/logout")
+    public ResponseEntity<String> logout() {
+        SecurityContextHolder.clearContext(); // Clears authentication context
+        return ResponseEntity.ok("Logout successful");
+    }
 
 
     // Retrieve all passengers
@@ -125,6 +97,21 @@ public class PassengerController {
                     .body("Error fetching passenger: " + e.getMessage());
         }
     }
+    
+    // Retrieve a passenger by email (Path Variable)
+    @GetMapping("/email/{email}")
+    public ResponseEntity<?> getPassengerByEmail(@PathVariable String email) { 
+        try {
+            Passenger passenger = passengerService.getPassengerByEmail(email);
+            return passenger != null ? ResponseEntity.ok(passenger)
+                                     : ResponseEntity.status(HttpStatus.NOT_FOUND).body("Passenger not found");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error fetching passenger: " + e.getMessage());
+        }
+    }
+
+
 
     // Delete a passenger by ID
     @DeleteMapping("/{id}")
