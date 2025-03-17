@@ -9,7 +9,7 @@ import com.travel.travelbookingsystem.entity.TransportAvailability;
 
 import jakarta.transaction.Transactional;
 import java.time.LocalDate;
-import java.util.Optional;
+import java.util.List;
 
 @Repository
 public interface TransportAvailabilityRepository extends JpaRepository<TransportAvailability, Long> {
@@ -17,16 +17,18 @@ public interface TransportAvailabilityRepository extends JpaRepository<Transport
 //	List<TransportAvailability> findAll();
 
     // Fetch availability for a specific transport type, ID, and date
-    Optional<TransportAvailability> findByTransportIdAndTransportTypeAndTravelDate(Long transportId, String transportType, LocalDate travelDate);
+    List<TransportAvailability> findByTransportIdAndTransportTypeAndTravelDate(Long transportId, String transportType, LocalDate travelDate);
     
     // Fetch availability for a specific transport type
-    Optional<TransportAvailability> findByTransportType(String transportType);
+    List<TransportAvailability> findByTransportType(String transportType);
     
     // Fetch availability for a specific transport ID
-    Optional<TransportAvailability> findByTransportId(Long transportId);
+    List<TransportAvailability> findByTransportId(Long transportId);
     
     // Fetch availability for a specific date
-    Optional<TransportAvailability> findByTravelDate(LocalDate travelDate);
+    List<TransportAvailability> findByTravelDate(LocalDate travelDate);
+    
+    boolean existsByTransportIdAndTransportTypeAndTravelDate(Long transportId, String transportType, LocalDate travelDate);
 
     // Reduce available seats when a booking is made
     @Modifying

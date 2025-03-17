@@ -24,16 +24,29 @@ import java.util.List;
 public class BusService {
 
     private final BusRepository busRepository;
+    @Autowired
+    private TransportAvailabilityService transportAvailabilityService;
 
     @Autowired
     public BusService(BusRepository busRepository) {
         this.busRepository = busRepository;
     }
+    
+    
 
-    // Save a new bus
-    public Bus saveBus(Bus bus) {
-        return busRepository.save(bus);
+    public Bus addBus(Bus bus) {
+        Bus savedBus = busRepository.save(bus);
+
+        // Pass totalSeats from Bus entity
+        transportAvailabilityService.addTransportAvailability(savedBus.getBusId(), "BUS", savedBus.getTotalSeats());
+
+        return savedBus;
     }
+    
+//    // Save a new bus
+//    public Bus saveBus(Bus bus) {
+//        return busRepository.save(bus);
+//    }
 
     // Retrieve all buses
     public List<Bus> getAllBuses() {

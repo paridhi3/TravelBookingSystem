@@ -47,7 +47,7 @@ public class FlightController {
     @PostMapping
     public ResponseEntity<?> addFlight(@RequestBody Flight flight) {
         try {
-            flightService.saveFlight(flight);
+            flightService.addFlight(flight);
             return ResponseEntity.status(HttpStatus.CREATED).body("Flight added successfully!");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error adding flight: " + e.getMessage());

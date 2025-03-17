@@ -8,7 +8,6 @@ import com.travel.travelbookingsystem.repository.TransportAvailabilityRepository
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class TransportAvailabilityService {
@@ -19,27 +18,49 @@ public class TransportAvailabilityService {
         this.transportAvailabilityRepository = transportAvailabilityRepository;
     }
     
-    public TransportAvailability addTransportAvailability(TransportAvailability availability) {
-        return transportAvailabilityRepository.save(availability);
+    @Transactional
+    public void addTransportAvailability(Long transportId, String transportType, int totalSeats) {
+        LocalDate today = LocalDate.now();
+
+        for (int i = 0; i < 7; i++) {  // Create entries for today + next 6 days
+            LocalDate travelDate = today.plusDays(i);
+
+            boolean exists = transportAvailabilityRepository.existsByTransportIdAndTransportTypeAndTravelDate(
+                    transportId, transportType, travelDate);
+
+            if (!exists) {
+                TransportAvailability availability = new TransportAvailability();
+                availability.setTransportId(transportId);
+                availability.setTransportType(transportType);
+                availability.setTravelDate(travelDate);
+                availability.setAvailableSeats(totalSeats); // Provided by transport service
+
+                transportAvailabilityRepository.save(availability);
+            }
+        }
     }
+    
+//    public TransportAvailability addTransportAvailability(TransportAvailability availability) {
+//        return transportAvailabilityRepository.save(availability);
+//    }
 
     public List<TransportAvailability> getAllAvailability() {
         return transportAvailabilityRepository.findAll();
     }
 
-    public Optional<TransportAvailability> getAvailabilityByTransportType(String transportType) {
+    public List<TransportAvailability> getAvailabilityByTransportType(String transportType) {
         return transportAvailabilityRepository.findByTransportType(transportType);
     }
     
-    public Optional<TransportAvailability> getAvailabilityByTransportId(Long transportId) {
+    public List<TransportAvailability> getAvailabilityByTransportId(Long transportId) {
         return transportAvailabilityRepository.findByTransportId(transportId);
     }
     
-    public Optional<TransportAvailability> getAvailabilityByTravelDate(LocalDate travelDate) {
+    public List<TransportAvailability> getAvailabilityByTravelDate(LocalDate travelDate) {
         return transportAvailabilityRepository.findByTravelDate(travelDate);
     }
     
-    public Optional<TransportAvailability> getAvailability(Long transportId, String transportType, LocalDate travelDate) {
+    public List<TransportAvailability> getAvailability(Long transportId, String transportType, LocalDate travelDate) {
         return transportAvailabilityRepository.findByTransportIdAndTransportTypeAndTravelDate(
                 transportId, transportType, travelDate);
     }

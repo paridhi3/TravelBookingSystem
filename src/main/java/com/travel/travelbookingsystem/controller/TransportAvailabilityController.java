@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "*") // Allow requests from any origin
@@ -28,33 +27,33 @@ public class TransportAvailabilityController {
     }
 
     @GetMapping("/by-type")
-    public Optional<TransportAvailability> getAvailabilityByTransportType(@RequestParam String transportType) {
+    public List<TransportAvailability> getAvailabilityByTransportType(@RequestParam String transportType) {
         return transportAvailabilityService.getAvailabilityByTransportType(transportType);
     }
 
     @GetMapping("/by-id")
-    public Optional<TransportAvailability> getAvailabilityByTransportId(@RequestParam Long transportId) {
+    public List<TransportAvailability> getAvailabilityByTransportId(@RequestParam Long transportId) {
         return transportAvailabilityService.getAvailabilityByTransportId(transportId);
     }
 
     @GetMapping("/by-date")
-    public Optional<TransportAvailability> getAvailabilityByTravelDate(@RequestParam LocalDate travelDate) {
+    public List<TransportAvailability> getAvailabilityByTravelDate(@RequestParam LocalDate travelDate) {
         return transportAvailabilityService.getAvailabilityByTravelDate(travelDate);
     }
 
     @GetMapping("/check")
-    public Optional<TransportAvailability> getAvailability(
+    public List<TransportAvailability> getAvailability(
             @RequestParam Long transportId,
             @RequestParam String transportType,
             @RequestParam LocalDate travelDate) {
         return transportAvailabilityService.getAvailability(transportId, transportType, travelDate);
     }
     
-    @PostMapping
-    public ResponseEntity<TransportAvailability> addTransportAvailability(@RequestBody TransportAvailability availability) {
-        TransportAvailability savedAvailability = transportAvailabilityService.addTransportAvailability(availability);
-        return new ResponseEntity<>(savedAvailability, HttpStatus.CREATED);
-    }
+//    @PostMapping
+//    public ResponseEntity<TransportAvailability> addTransportAvailability(@RequestBody TransportAvailability availability) {
+//        TransportAvailability savedAvailability = transportAvailabilityService.addTransportAvailability(availability);
+//        return new ResponseEntity<>(savedAvailability, HttpStatus.CREATED);
+//    }
 
     @PostMapping("/reduce-seats")
     public boolean reduceAvailableSeats(

@@ -46,7 +46,7 @@ public class TrainController {
     @PostMapping
     public ResponseEntity<?> addTrain(@RequestBody Train train) {
         try {
-            trainService.saveTrain(train);
+            trainService.addTrain(train);
             return ResponseEntity.status(HttpStatus.CREATED).body("Train added successfully!");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error adding train: " + e.getMessage());

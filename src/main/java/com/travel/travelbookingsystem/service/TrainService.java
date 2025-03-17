@@ -2,6 +2,8 @@ package com.travel.travelbookingsystem.service;
 
 import com.travel.travelbookingsystem.entity.Train;
 import com.travel.travelbookingsystem.repository.TrainRepository;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,15 +25,26 @@ import java.util.List;
 @Service
 public class TrainService {
     private final TrainRepository trainRepository;
+    @Autowired
+    private TransportAvailabilityService transportAvailabilityService;
 
     public TrainService(TrainRepository trainRepository) {
         this.trainRepository = trainRepository;
     }
 
-    // Save or update a train
-    public Train saveTrain(Train train) {
-        return trainRepository.save(train); // JPA handles both insert and update
+    public Train addTrain(Train train) {
+        Train savedTrain = trainRepository.save(train);
+
+        // Pass totalSeats from Train entity
+        transportAvailabilityService.addTransportAvailability(savedTrain.getTrainId(), "TRAIN", savedTrain.getTotalSeats());
+
+        return savedTrain;
     }
+
+//    // Save or update a tin
+//    public Train saveTrain(Train trai {
+//        return trainRepository.save(train); // JPA handles both insert and upte
+//    }
 
     // Retrieve all trains
     public List<Train> getAllTrains() {

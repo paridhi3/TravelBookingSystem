@@ -71,7 +71,7 @@ public class BusController {
     @PostMapping
     public ResponseEntity<?> addBus(@RequestBody Bus bus) {
         try {
-            busService.saveBus(bus);
+            busService.addBus(bus);
             return ResponseEntity.status(HttpStatus.CREATED).body("Bus added successfully!");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error adding bus: " + e.getMessage());

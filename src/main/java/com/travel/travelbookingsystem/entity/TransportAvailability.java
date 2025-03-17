@@ -1,7 +1,15 @@
 package com.travel.travelbookingsystem.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
+import jakarta.validation.ValidatorFactory;
+import jakarta.validation.ConstraintViolation;
+
 import java.time.LocalDate;
+import java.util.Set;
+
+import com.travel.travelbookingsystem.validation.ValidTravelDate;
 
 @Entity
 @Table(name = "transport_availability")
@@ -19,7 +27,9 @@ public class TransportAvailability {
     private String transportType;  // "FLIGHT", "BUS", or "TRAIN"
 
     @Column(name = "travel_date", nullable = false)
+    @ValidTravelDate
     private LocalDate travelDate;
+
 
     @Column(name = "available_seats", nullable = false)
     private int availableSeats;
@@ -60,8 +70,15 @@ public class TransportAvailability {
     }
 
     public void setTravelDate(LocalDate travelDate) {
+        LocalDate today = LocalDate.now();
+        LocalDate maxAllowedDate = today.plusDays(6);
+
+        if (travelDate.isBefore(today) || travelDate.isAfter(maxAllowedDate)) {
+            throw new IllegalArgumentException("Travel date must be between today and the next 6 days.");
+        }
         this.travelDate = travelDate;
     }
+
 
     public int getAvailableSeats() {
         return availableSeats;
@@ -70,4 +87,17 @@ public class TransportAvailability {
     public void setAvailableSeats(int availableSeats) {
         this.availableSeats = availableSeats;
     }
+    
+    @PrePersist
+    @PreUpdate
+    private void validate() {
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        Validator validator = factory.getValidator();
+
+        Set<ConstraintViolation<TransportAvailability>> violations = validator.validate(this);
+        if (!violations.isEmpty()) {
+            throw new IllegalArgumentException(violations.iterator().next().getMessage());
+        }
+    }
+    
 }
