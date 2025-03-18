@@ -1,10 +1,13 @@
 package com.travel.travelbookingsystem.service;
 
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.travel.travelbookingsystem.entity.TransportAvailability;
 import com.travel.travelbookingsystem.repository.TransportAvailabilityRepository;
+
+import jakarta.annotation.PostConstruct;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -40,9 +43,26 @@ public class TransportAvailabilityService {
         }
     }
     
-//    public TransportAvailability addTransportAvailability(TransportAvailability availability) {
-//        return transportAvailabilityRepository.save(availability);
-//    }
+    @PostConstruct // Runs at startup
+    public void updateTransportAvailability() {
+        System.out.println("Running transport availability update...");
+        transportAvailabilityRepository.deletePastRecords();
+        transportAvailabilityRepository.deleteDepartedTransports();
+        transportAvailabilityRepository.insertNextDayRecords();
+        System.out.println("Transport availability updated.");
+    }
+
+//    @Scheduled(cron = "0 */30 * * * ?") // every 30m
+//    @Scheduled(cron = "0 0 0 * * ?") // runs at midnight every day
+//    @Scheduled(fixedDelay = 60000) // Runs every 60 seconds after previous execution completes
+//    @Scheduled(fixedRate = 60000) // Runs every 60 seconds
+//    @Scheduled(cron = "*/5 * * * * ?") // runs every 5s
+    @Scheduled(cron = "0 0 * * * ?") // Runs every hour
+    @Transactional
+    public void scheduledUpdate() {
+        updateTransportAvailability();
+    }
+    
 
     public List<TransportAvailability> getAllAvailability() {
         return transportAvailabilityRepository.findAll();
