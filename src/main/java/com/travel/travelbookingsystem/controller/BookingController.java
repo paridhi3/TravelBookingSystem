@@ -1,12 +1,17 @@
 package com.travel.travelbookingsystem.controller;
 
 import com.travel.travelbookingsystem.entity.Booking;
+import com.travel.travelbookingsystem.entity.TransportType;
 import com.travel.travelbookingsystem.service.BookingService;
+
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -84,6 +89,66 @@ public class BookingController {
                                  .body("Error retrieving bookings: " + e.getMessage());
         }
     }
+    
+    // Retrieve bookings by transport type, transport id, and travel date
+    @GetMapping("/transport/{transportType}/{transportId}")
+    public ResponseEntity<?> getBookingsByTransportTypeTransportIdTravelDate(
+        @PathVariable String transportType,
+        @PathVariable long transportId,
+        @RequestParam String travelDate // Accept travelDate as a query parameter
+    ) {
+        try {
+            // Convert String to Enum
+            TransportType typeEnum;
+            try {
+                typeEnum = TransportType.valueOf(transportType.toUpperCase());
+            } catch (IllegalArgumentException e) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                                     .body("Invalid transport type: " + transportType);
+            }
+
+            // Convert String to LocalDate
+            LocalDate date;
+            try {
+                date = LocalDate.parse(travelDate);
+            } catch (DateTimeParseException e) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                                     .body("Invalid travel date format. Expected format: YYYY-MM-DD");
+            }
+
+            List<Booking> bookings = bookingService.getBookingsByTransportTypeTransportId(typeEnum, transportId, date);
+            return bookings.isEmpty() ? ResponseEntity.status(HttpStatus.NOT_FOUND)
+                                      .body("No bookings found for this transport type, transport id, and travel date")
+                                      : ResponseEntity.ok(bookings);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                                 .body("Error retrieving bookings: " + e.getMessage());
+        }
+    }
+
+    // Retrieve booked seats by transport type, transport id, and travel date
+    @GetMapping("/bookedSeats")
+    public ResponseEntity<List<String>> getBookedSeats(@RequestParam String transportType,
+                                                       @RequestParam long transportId,
+                                                       @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate travelDate) {
+        try {
+            TransportType typeEnum;
+            try {
+                typeEnum = TransportType.valueOf(transportType.toUpperCase()); // Convert string to Enum
+            } catch (IllegalArgumentException e) {
+                return ResponseEntity.badRequest().body(Collections.singletonList("Invalid transport type: " + transportType));
+            }
+
+            List<String> bookedSeats = bookingService.getBookedSeats(typeEnum, transportId, travelDate);
+
+            return ResponseEntity.ok(bookedSeats); // ✅ Always return 200 with an empty list if no seats are booked
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                                 .body(Collections.singletonList("Error fetching booked seats: " + e.getMessage()));
+        }
+    }
+
+
     
     @PostMapping("/book/{passengerId}/{transportId}")
     public ResponseEntity<?> createBooking(@RequestBody Booking booking,

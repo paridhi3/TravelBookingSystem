@@ -16,7 +16,7 @@ import java.util.List;
 @Repository
 public interface TransportAvailabilityRepository extends JpaRepository<TransportAvailability, Long> {
 	
-//	List<TransportAvailability> findAll();
+	List<TransportAvailability> findAll();
 
     // Fetch availability for a specific transport type, ID, and date
     List<TransportAvailability> findByTransportIdAndTransportTypeAndTravelDate(Long transportId, String transportType, LocalDate travelDate);
