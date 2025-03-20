@@ -1,6 +1,8 @@
 package com.travel.travelbookingsystem.controller;
 
 import com.travel.travelbookingsystem.entity.Booking;
+import com.travel.travelbookingsystem.entity.BookingStatus;
+import com.travel.travelbookingsystem.entity.PaymentStatus;
 import com.travel.travelbookingsystem.entity.TransportType;
 import com.travel.travelbookingsystem.service.BookingService;
 
@@ -168,7 +170,7 @@ public class BookingController {
 
     // Update booking status
     @PutMapping("/{bookingId}/status")
-    public ResponseEntity<?> updateBookingStatus(@PathVariable long bookingId, @RequestParam String status) {
+    public ResponseEntity<?> updateBookingStatus(@PathVariable long bookingId, @RequestParam BookingStatus status) {
         try {
             bookingService.updateBookingStatus(bookingId, status);
             return ResponseEntity.ok("Booking status updated successfully");
@@ -180,12 +182,13 @@ public class BookingController {
 
     // Update payment status
     @PutMapping("/{bookingId}/payment")
-    public ResponseEntity<?> updatePaymentStatus(@PathVariable long bookingId, @RequestParam String status) {
+    public ResponseEntity<?> updatePaymentStatus(@PathVariable long bookingId, @RequestParam PaymentStatus status) {
         try {
             bookingService.updatePaymentStatus(bookingId, status);
             return ResponseEntity.ok("Payment status updated successfully");
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+        	e.printStackTrace();
+        	return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                                  .body("Error updating payment status: " + e.getMessage());
         }
     }

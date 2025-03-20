@@ -1,6 +1,8 @@
 package com.travel.travelbookingsystem.repository;
 
 import com.travel.travelbookingsystem.entity.Booking;
+import com.travel.travelbookingsystem.entity.BookingStatus;
+import com.travel.travelbookingsystem.entity.PaymentStatus;
 import com.travel.travelbookingsystem.entity.TransportType;
 
 import org.springframework.data.jdbc.repository.query.Modifying;
@@ -39,11 +41,11 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
     @Transactional
     @Modifying
     @Query("UPDATE Booking b SET b.bookingStatus = :status WHERE b.bookingId = :bookingId")
-    void updateBookingStatus(@Param("bookingId") Long bookingId, @Param("status") String status);
+    void updateBookingStatus(@Param("bookingId") Long bookingId, @Param("status") BookingStatus status);
 
     // Update payment status
     @Transactional
     @Modifying
     @Query("UPDATE Booking b SET b.paymentStatus = :status WHERE b.bookingId = :bookingId")
-    void updatePaymentStatus(@Param("bookingId") Long bookingId, @Param("status") String status);
+    void updatePaymentStatus(@Param("bookingId") Long bookingId, @Param("status") PaymentStatus status);
 }

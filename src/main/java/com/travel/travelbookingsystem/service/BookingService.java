@@ -119,13 +119,13 @@ public class BookingService {
 
     // Update booking status
     @Transactional
-    public void updateBookingStatus(long bookingId, String status) {
+    public void updateBookingStatus(long bookingId, BookingStatus status) {
         bookingRepository.updateBookingStatus(bookingId, status);
     }
 
     // Update payment status
     @Transactional
-    public void updatePaymentStatus(long bookingId, String status) {
+    public void updatePaymentStatus(long bookingId, PaymentStatus status) {
         bookingRepository.updatePaymentStatus(bookingId, status);
     }
 
