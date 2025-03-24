@@ -3,8 +3,6 @@ package com.travel.travelbookingsystem.controller;
 import com.travel.travelbookingsystem.entity.TransportAvailability;
 import com.travel.travelbookingsystem.service.TransportAvailabilityService;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -48,12 +46,6 @@ public class TransportAvailabilityController {
             @RequestParam LocalDate travelDate) {
         return transportAvailabilityService.getAvailability(transportId, transportType, travelDate);
     }
-    
-//    @PostMapping
-//    public ResponseEntity<TransportAvailability> addTransportAvailability(@RequestBody TransportAvailability availability) {
-//        TransportAvailability savedAvailability = transportAvailabilityService.addTransportAvailability(availability);
-//        return new ResponseEntity<>(savedAvailability, HttpStatus.CREATED);
-//    }
 
     @PostMapping("/reduce-seats")
     public boolean reduceAvailableSeats(

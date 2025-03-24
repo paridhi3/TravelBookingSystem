@@ -27,7 +27,6 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
     // Custom query methods:
 
     // Find bookings by passenger ID
-//    List<Booking> findByPassengerId(Long passengerId);
 	List<Booking> findByPassenger_PassengerId(Long passengerId);
 
     // Find bookings by transport type

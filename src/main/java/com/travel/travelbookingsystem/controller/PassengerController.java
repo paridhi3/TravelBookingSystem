@@ -6,9 +6,6 @@ import com.travel.travelbookingsystem.service.PassengerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -21,9 +18,6 @@ import java.util.List;
 public class PassengerController {
 
     private final PassengerService passengerService;
-
-    @Autowired
-    private AuthenticationManager authenticationManager;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -54,6 +48,10 @@ public class PassengerController {
     // Login Passenger    
     @PostMapping("/req/login")
     public ResponseEntity<?> loginPassenger(@RequestBody Passenger passenger) {
+    	
+    	System.out.println("Received email in PassengerController: " + passenger.getEmail());
+	    System.out.println("Received password in PassengerController: " + passenger.getPassword());
+    	
         boolean isAuthenticated = passengerService.authenticate(passenger.getEmail(), passenger.getPassword());
 
         if (!isAuthenticated) {

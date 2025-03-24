@@ -104,10 +104,6 @@ public class PassengerService implements UserDetailsService {
         return false; // User not found
     }
 
-
-
-
-
     // Retrieve all passengers
     public List<Passenger> getAllPassengers() {
         return passengerRepository.findAll();
