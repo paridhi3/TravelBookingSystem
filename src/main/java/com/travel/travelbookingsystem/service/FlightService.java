@@ -41,10 +41,7 @@ public class FlightService {
         return savedFlight;
     }
 
-    // Save a new flight (JPA provides save())
-//    public Flight saveFlight(Flight flight) {
-//        return flightRepository.save(flight);
-//    }
+
 
     // Retrieve all flights (JPA provides findAll())
     public List<Flight> getAllFlights() {

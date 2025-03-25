@@ -1,6 +1,7 @@
 package com.travel.travelbookingsystem.controller;
 
 import com.travel.travelbookingsystem.entity.Bus;
+import com.travel.travelbookingsystem.entity.Flight;
 import com.travel.travelbookingsystem.service.BusService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -79,11 +80,12 @@ public class BusController {
     }
 
     // Update bus details
-    @PutMapping
-    public ResponseEntity<?> updateBus(@RequestBody Bus bus) {
+    @PutMapping("/{busId}")
+    public ResponseEntity<?> updateBus(@PathVariable long busId, @RequestBody Bus bus) {
         try {
+            bus.setBusId(busId);
             busService.updateBus(bus);
-            return ResponseEntity.ok("Bus updated successfully!");
+            return ResponseEntity.ok("Bus details updated successfully!");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error updating bus: " + e.getMessage());
         }

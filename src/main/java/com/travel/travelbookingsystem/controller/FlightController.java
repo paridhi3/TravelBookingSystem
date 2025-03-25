@@ -1,6 +1,7 @@
 package com.travel.travelbookingsystem.controller;
 
 import com.travel.travelbookingsystem.entity.Flight;
+import com.travel.travelbookingsystem.entity.Train;
 import com.travel.travelbookingsystem.service.FlightService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -47,12 +48,26 @@ public class FlightController {
     @PostMapping
     public ResponseEntity<?> addFlight(@RequestBody Flight flight) {
         try {
+        	System.out.println("Received Flight: " + flight);
             flightService.addFlight(flight);
             return ResponseEntity.status(HttpStatus.CREATED).body("Flight added successfully!");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error adding flight: " + e.getMessage());
         }
     }
+    
+    // Update flight details
+    @PutMapping("/{flightId}")
+    public ResponseEntity<?> updateFlight(@PathVariable long flightId, @RequestBody Flight flight) {
+        try {
+            flight.setFlightId(flightId);
+            flightService.updateFlight(flight);
+            return ResponseEntity.ok("Flight details updated successfully!");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error updating flight: " + e.getMessage());
+        }
+    }
+
 
     // Delete a flight by ID
     @DeleteMapping("/{flightId}")
