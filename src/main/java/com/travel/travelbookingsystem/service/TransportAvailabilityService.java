@@ -43,6 +43,15 @@ public class TransportAvailabilityService {
         }
     }
     
+    @Transactional
+    public void deleteTransportAvailability(Long transportId, String transportType) {
+
+    		List<TransportAvailability> taList = transportAvailabilityRepository.findByTransportIdAndTransportType(transportId, transportType);
+    		for (TransportAvailability ta : taList) {
+    	        transportAvailabilityRepository.deleteByTransportIdAndTransportType(transportId, transportType);
+    	    }
+    }
+    
     @PostConstruct // Runs at startup
     public void updateTransportAvailability() {
         System.out.println("Running transport availability update...");

@@ -5,10 +5,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.travel.travelbookingsystem.entity.Bus;
+import com.travel.travelbookingsystem.entity.Bus;
 import com.travel.travelbookingsystem.repository.BusRepository;
+
+import jakarta.persistence.EntityNotFoundException;
 
 import java.util.List;
 //import java.util.Optional;
+import java.util.Optional;
 
 /**
  * BusService Methods:
@@ -74,7 +78,15 @@ public class BusService {
 
     // Delete a bus by ID
     public void deleteBusById(long busId) {
-        busRepository.deleteById(busId);
+        Optional<Bus> busOptional = busRepository.findById(busId);
+        
+        if (busOptional.isPresent()) {
+            Bus bus = busOptional.get();  // Unwrapping Optional
+            transportAvailabilityService.deleteTransportAvailability(bus.getBusId(), "BUS");
+            busRepository.deleteById(busId);
+        } else {
+            throw new EntityNotFoundException("Bus with ID " + busId + " not found");
+        }
     }
 
     // Retrieve buses by source and destination

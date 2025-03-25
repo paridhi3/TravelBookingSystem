@@ -1,7 +1,10 @@
 package com.travel.travelbookingsystem.service;
 
+import com.travel.travelbookingsystem.entity.train;
 import com.travel.travelbookingsystem.entity.Train;
 import com.travel.travelbookingsystem.repository.TrainRepository;
+
+import jakarta.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 //import java.util.Optional;
+import java.util.Optional;
 
 /*
  * TrainService Methods:
@@ -61,42 +65,17 @@ public class TrainService {
         return trainRepository.save(train); // JPA save() updates if ID exists
     }
 
-//    // Reduce available seats when a booking is made
-//    @Transactional
-//    public boolean reduceAvailableSeats(Long trainId) {
-//        Optional<Train> optionalTrain = trainRepository.findById(trainId);
-//        if (optionalTrain.isEmpty()) {
-//            System.out.println("Train not found with ID: " + trainId);
-//            return false;
-//        }
-//
-//        Train train = optionalTrain.get();
-//        if (train.getAvailableSeats() <= 0) {
-//            System.out.println("No available seats for Train ID: " + trainId);
-//            return false;
-//        }
-//
-//        System.out.println("Before Update: Available Seats = " + train.getAvailableSeats());
-//
-//        int rowsUpdated = trainRepository.updateAvailableSeats(trainId, train.getAvailableSeats());
-//        if (rowsUpdated > 0) {
-//            System.out.println("After Update: Available Seats = " + (train.getAvailableSeats() - 1));
-//            return true;
-//        }
-//        
-//        return false;
-//    }
-    
-    // use either method
-//    @Transactional
-//    public boolean reduceAvailableSeats(Long trainId) {
-//        int rowsUpdated = trainRepository.updateAvailableSeats(trainId);
-//        return rowsUpdated > 0; // Returns true if update was successful
-//    }
-
     // Delete a train by ID
-    public void deleteTrainById(long trainId) {
-        trainRepository.deleteById(trainId); // JPA method
+    public void deletetrainById(long trainId) {
+        Optional<Train> trainOptional = trainRepository.findById(trainId);
+        
+        if (trainOptional.isPresent()) {
+            Train train = trainOptional.get();  // Unwrapping Optional
+            transportAvailabilityService.deleteTransportAvailability(train.getTrainId(), "TRAIN");
+            trainRepository.deleteById(trainId);
+        } else {
+            throw new EntityNotFoundException("Train with ID " + trainId + " not found");
+        }
     }
 
     // Retrieve trains by source and destination

@@ -21,6 +21,9 @@ public interface TransportAvailabilityRepository extends JpaRepository<Transport
     // Fetch availability for a specific transport type, ID, and date
     List<TransportAvailability> findByTransportIdAndTransportTypeAndTravelDate(Long transportId, String transportType, LocalDate travelDate);
     
+    // Fetch availability for a specific transport type, ID
+    List<TransportAvailability> findByTransportIdAndTransportType(Long transportId, String transportType);
+    
     // Fetch availability for a specific transport type
     List<TransportAvailability> findByTransportType(String transportType);
     
@@ -31,6 +34,11 @@ public interface TransportAvailabilityRepository extends JpaRepository<Transport
     List<TransportAvailability> findByTravelDate(LocalDate travelDate);
     
     boolean existsByTransportIdAndTransportTypeAndTravelDate(Long transportId, String transportType, LocalDate travelDate);
+    
+    @Modifying
+    @Transactional
+    @Query("DELETE FROM TransportAvailability ta WHERE ta.transportId = :transportId AND ta.transportType = :transportType")
+    void deleteByTransportIdAndTransportType(Long transportId, String transportType);
 
     // Reduce available seats when a booking is made
     @Modifying

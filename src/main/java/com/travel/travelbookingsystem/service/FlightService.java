@@ -3,11 +3,14 @@ package com.travel.travelbookingsystem.service;
 import com.travel.travelbookingsystem.entity.Flight;
 import com.travel.travelbookingsystem.repository.FlightRepository;
 
+import jakarta.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 //import java.util.Optional;
 
 /**
@@ -58,43 +61,19 @@ public class FlightService {
         return flightRepository.save(flight);
     }
 
-    // Update available seats when a booking is made   
-//    @Transactional
-//    public boolean reduceAvailableSeats(Long flightId) {
-//        Optional<Flight> optionalFlight = flightRepository.findById(flightId);
-//        
-//        if (optionalFlight.isEmpty()) {
-//            System.out.println("Flight not found with ID: " + flightId);
-//            return false;
-//        }
-//
-//        Flight flight = optionalFlight.get();
-//        if (flight.getAvailableSeats() <= 0) {
-//            System.out.println("No available seats for Flight ID: " + flightId);
-//            return false;
-//        }
-//
-//        System.out.println("Before Update: Available Seats = " + flight.getAvailableSeats());
-//
-//        flight.setAvailableSeats(flight.getAvailableSeats() - 1);
-//        flightRepository.save(flight);  // JPA automatically persists the change in database
-//        
-//        System.out.println("After Update: Available Seats = " + flight.getAvailableSeats());
-//
-//        return true;
-//    }
-    
-    // use either method
-//    @Transactional
-//    public boolean reduceAvailableSeats(Long flightId) {
-//        int rowsUpdated = flightRepository.updateAvailableSeats(flightId);
-//        return rowsUpdated > 0; // Returns true if update was successful
-//    }
-
     // Delete a flight by ID (JPA provides deleteById())
     public void deleteFlightById(long flightId) {
-        flightRepository.deleteById(flightId);
+        Optional<Flight> flightOptional = flightRepository.findById(flightId);
+        
+        if (flightOptional.isPresent()) {
+            Flight flight = flightOptional.get();  // Unwrapping Optional
+            transportAvailabilityService.deleteTransportAvailability(flight.getFlightId(), "FLIGHT");
+            flightRepository.deleteById(flightId);
+        } else {
+            throw new EntityNotFoundException("Flight with ID " + flightId + " not found");
+        }
     }
+
 
     // Retrieve flights by source and destination (JPA supports derived query methods)
     public List<Flight> getFlightsBySourceAndDestination(String source, String destination) {
