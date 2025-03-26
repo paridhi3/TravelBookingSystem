@@ -1,6 +1,5 @@
 package com.travel.travelbookingsystem.service;
 
-import com.travel.travelbookingsystem.entity.train;
 import com.travel.travelbookingsystem.entity.Train;
 import com.travel.travelbookingsystem.repository.TrainRepository;
 
@@ -66,7 +65,7 @@ public class TrainService {
     }
 
     // Delete a train by ID
-    public void deletetrainById(long trainId) {
+    public void deleteTrainById(long trainId) {
         Optional<Train> trainOptional = trainRepository.findById(trainId);
         
         if (trainOptional.isPresent()) {
