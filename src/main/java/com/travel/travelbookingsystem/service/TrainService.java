@@ -7,7 +7,6 @@ import jakarta.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 //import java.util.Optional;
@@ -43,11 +42,6 @@ public class TrainService {
 
         return savedTrain;
     }
-
-//    // Save or update a tin
-//    public Train saveTrain(Train trai {
-//        return trainRepository.save(train); // JPA handles both insert and upte
-//    }
 
     // Retrieve all trains
     public List<Train> getAllTrains() {

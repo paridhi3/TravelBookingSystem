@@ -1,7 +1,6 @@
 package com.travel.travelbookingsystem.controller;
 
 import com.travel.travelbookingsystem.entity.Bus;
-import com.travel.travelbookingsystem.entity.Flight;
 import com.travel.travelbookingsystem.service.BusService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

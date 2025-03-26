@@ -8,14 +8,6 @@ import java.util.List;
 @Repository
 public interface FlightRepository extends JpaRepository<Flight, Long> {
 
-    // ✅ Already provided by JpaRepository:
-    // - save(Flight flight) → Saves/updates a flight
-    // - findAll() → Retrieves all flights
-    // - findById(Long flightId) → Finds a flight by ID
-    // - deleteById(Long flightId) → Deletes a flight by ID
-
-    // ❌ Custom Query Methods (Not provided by default)
-
     // Find flights by source and destination
     List<Flight> findBySourceAndDestination(String source, String destination);
 

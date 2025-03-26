@@ -4,7 +4,6 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +11,6 @@ import com.travel.travelbookingsystem.entity.Passenger;
 import com.travel.travelbookingsystem.repository.PassengerRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -39,18 +37,6 @@ public class PassengerService implements UserDetailsService {
                    .roles("USER")  // Add role
                    .build();
     }
-
-//    // Register a new passenger
-//    public Passenger registerPassenger(Passenger passenger) {
-//    	System.out.println(passenger);
-//    	if (passenger.getPassword() == null || passenger.getPassword().isEmpty()) {
-//            throw new IllegalArgumentException("Password cannot be null or empty");
-//        }
-//        passenger.setPassword(passwordEncoder.encode(passenger.getPassword())); // Encrypt password
-//        System.out.println("Raw Password at Registration: '" + passenger.getPassword() + "'");
-//        System.out.println("Passenger " + passenger.getFull_name() + " successfully registered!");
-//        return passengerRepository.save(passenger);
-//    }
     
     public Passenger registerPassenger(Passenger passenger) {
         System.out.println("Register passenger: " + passenger);
@@ -71,19 +57,6 @@ public class PassengerService implements UserDetailsService {
         System.out.println("Passenger " + passenger.getFull_name() + " successfully registered!");
         return passengerRepository.save(passenger);
     }
-    
-//    public boolean register(UserAuthentication user) {
-//        Optional<UserAuthentication> existingUser = userRepository.findByUsername(user.getUsername());
-//        if (existingUser.isPresent()) {
-//            return false; // Username already exists
-//        }
-//
-//        // Hash the password before saving
-//        String hashedPassword = passwordEncoder.encode(user.getPasswordHash());
-//        user.setPasswordHash(hashedPassword);
-//
-//        return userRepository.save(user) > 0;
-//    }
     
     // Authenticate user (for login)
     public boolean authenticate(String email, String password) {

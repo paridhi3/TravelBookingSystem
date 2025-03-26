@@ -1,10 +1,6 @@
 package com.travel.travelbookingsystem.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.security.core.userdetails.User;
-//import org.springframework.security.core.userdetails.UserDetails;
-//import org.springframework.security.core.userdetails.UserDetailsService;
-//import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -69,45 +65,6 @@ public class AdminService {
 
         return false; // admin not found
     }
-
-//	@Override
-//	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-//		Admin admin = adminRepository.findByEmail(email);
-//        if (admin == null) {
-//            throw new UsernameNotFoundException("Admin not found with email: " + email);
-//        }
-//        return User.withUsername(admin.getEmail())
-//                   .password(admin.getPassword())
-//                   .roles("ADMIN")  // Add role
-//                   .build();
-//	}
-    
-//    public boolean authenticateAdmin(String email, String password) {
-//        System.out.println("📩 Received Email: " + email);
-//        System.out.println("📩 Received Password: " + password);  // Should be RAW, NOT hashed!
-//
-//        Admin admin = adminRepository.findByEmail(email);
-//        
-//        if (admin == null) {
-//            System.out.println("❌ Admin not found!");
-//            return false;
-//        }
-//
-//        // Log the stored hashed password
-//        System.out.println("🔍 Stored Hashed Password from DB: " + admin.getPassword());
-//
-//        // Check if received password is already hashed (it should not be)
-//        if (password.startsWith("$2a$10$")) {
-//            System.out.println("⚠️ WARNING: Hashed password received instead of raw password!");
-//            return false;
-//        }
-//
-//        boolean matches = passwordEncoder.matches(password, admin.getPassword());
-//
-//        System.out.println(matches ? "✅ Password Matched!" : "❌ Password Mismatch!");
-//
-//        return matches;
-//    }
 
 
 }

@@ -5,13 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.travel.travelbookingsystem.entity.Bus;
-import com.travel.travelbookingsystem.entity.Bus;
 import com.travel.travelbookingsystem.repository.BusRepository;
 
 import jakarta.persistence.EntityNotFoundException;
 
 import java.util.List;
-//import java.util.Optional;
 import java.util.Optional;
 
 /**
@@ -37,8 +35,6 @@ public class BusService {
     public BusService(BusRepository busRepository) {
         this.busRepository = busRepository;
     }
-    
-    
 
     public Bus addBus(Bus bus) {
         Bus savedBus = busRepository.save(bus);
@@ -48,11 +44,6 @@ public class BusService {
 
         return savedBus;
     }
-    
-//    // Save a new bus
-//    public Bus saveBus(Bus bus) {
-//        return busRepository.save(bus);
-//    }
 
     // Retrieve all buses
     public List<Bus> getAllBuses() {
@@ -68,13 +59,6 @@ public class BusService {
     public Bus updateBus(Bus bus) {
         return busRepository.save(bus);
     }
-
-    // Reduce available seats when a booking is made
-//    @Transactional
-//    public boolean reduceAvailableSeats(Long busId) {
-//        int rowsUpdated = busRepository.updateAvailableSeats(busId);
-//        return rowsUpdated > 0; // Returns true if the update was successful
-//    }
 
     // Delete a bus by ID
     public void deleteBusById(long busId) {

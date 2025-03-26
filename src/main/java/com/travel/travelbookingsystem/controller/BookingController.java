@@ -29,7 +29,7 @@ import java.util.List;
  */
 
 @RestController
-@CrossOrigin(origins = "*") // Allow requests from any origin
+@CrossOrigin(origins = "*")
 @RequestMapping("/api/bookings")
 public class BookingController {
 

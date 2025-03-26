@@ -25,15 +25,6 @@ public class SecurityConfig {
         this.userDetailsService = userDetailsService;
     }
     
-//    @Bean
-//    public AuthenticationManager authenticationManager() {
-//        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-//        authProvider.setUserDetailsService(userDetailsService);
-//        authProvider.setPasswordEncoder(passwordEncoder());
-//
-//        return new ProviderManager(List.of(authProvider));
-//    }
-    
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
