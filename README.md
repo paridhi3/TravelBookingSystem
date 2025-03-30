@@ -54,7 +54,6 @@ A **Spring Boot-based Travel Booking System** that allows users to book Flights,
 5. [🛢 Database Schema](#-database-schema)  
 6. [🎨 System Architecture](#-system-architecture)  
 7. [⚙️ Setup and Installation](#️-setup-and-installation)  
-8. [🔗 API Endpoints](#-api-endpoints)  
 
 ## 📄 **Abstract**  
 
