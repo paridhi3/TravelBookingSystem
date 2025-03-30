@@ -101,8 +101,7 @@ The **Travel Booking System** provides a seamless way to book flights, trains, a
 - **Database**: MySQL  
 - **ORM**: Hibernate (JPA)  
 - **Scheduler**: Spring Boot Scheduler  
-- **Authentication**: JWT  
-- **API Documentation**: Swagger  
+- **Authentication**: Spring Security (BCrypt Password Encoder)
 
 ---
 
