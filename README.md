@@ -46,6 +46,8 @@ Frontend: https://github.com/paridhi3/Frontend-Travel-Booking-System
 
 A **Spring Boot-based Travel Booking System** that allows users to book Flights, Trains, and Buses with real-time availability management. It supports role-based authentication, transport management, and booking functionalities.
 
+For Frontend code, click [here](https://github.com/paridhi3/Frontend-Travel-Booking-System).  
+
 ## 📋 Table of Contents  
 1. [📄 Abstract](#-abstract)  
 2. [🚀 Features](#-features)  
@@ -58,8 +60,6 @@ A **Spring Boot-based Travel Booking System** that allows users to book Flights,
 ## 📄 **Abstract**  
 
 The **Travel Booking System** provides a seamless way to book flights, trains, and buses with an integrated search and filter mechanism. The system includes user authentication, seat selection, and automatic availability management. Admins can manage transport services and monitor bookings efficiently.
-
-For Frontend code, click [here](https://github.com/paridhi3/Frontend-Travel-Booking-System).  
 
 ## 🚀 **Features**  
 
