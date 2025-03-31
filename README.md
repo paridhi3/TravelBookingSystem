@@ -59,6 +59,8 @@ A **Spring Boot-based Travel Booking System** that allows users to book Flights,
 
 The **Travel Booking System** provides a seamless way to book flights, trains, and buses with an integrated search and filter mechanism. The system includes user authentication, seat selection, and automatic availability management. Admins can manage transport services and monitor bookings efficiently.
 
+For Frontend code, click [here](https://github.com/paridhi3/Frontend-Travel-Booking-System).  
+
 ## 🚀 **Features**  
 
 ### **1. User Authentication & Management**  
@@ -96,7 +98,7 @@ The **Travel Booking System** provides a seamless way to book flights, trains, a
 ## 🛠 **Technologies Used**  
 
 - **Backend**: Java, Spring Boot, Spring Security  
-- **Frontend**: [React-based frontend](https://github.com/paridhi3/Frontend-Travel-Booking-System)  
+- **Frontend**: React.js
 - **Database**: MySQL  
 - **ORM**: Hibernate (JPA)  
 - **Scheduler**: Spring Boot Scheduler  
