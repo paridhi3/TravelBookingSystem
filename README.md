@@ -53,7 +53,7 @@ For Frontend code, click [here](https://github.com/paridhi3/Frontend-Travel-Book
 2. [🚀 Features](#-features)  
 3. [🛠 Technologies Used](#-technologies-used)  
 4. [👥 Roles in the System](#-roles-in-the-system)
-5. [🏗️Project Architecture](#-project-architecture)
+5. [🏗️ Project Architecture](#project-architecture)
 6. [🔄Project Flow](#-project-flow)
 7. [⚙️ Setup and Installation](#️-setup-and-installation)  
 
