@@ -55,8 +55,7 @@ For Frontend code, click [here](https://github.com/paridhi3/Frontend-Travel-Book
 4. [👥 Roles in the System](#-roles-in-the-system)
 5. [🏗️Project Architecture](#-project-architecture)
 6. [🔄Project Flow](#-project-flow)
-7. [🛢 Database Schema](#-database-schema)  
-8. [⚙️ Setup and Installation](#️-setup-and-installation)  
+7. [⚙️ Setup and Installation](#️-setup-and-installation)  
 
 ## 📄 **Abstract**  
 
@@ -129,39 +128,6 @@ The **Travel Booking System** provides a seamless way to book flights, trains, a
 
 ## 🔄 **Project Flow**  
 ![Project Flow](Project%20Flow.drawio%20(1).png)
-
-
-## 🛢 **Database Schema**  
-
-### **Users Table**  
-| Column          | Type        | Description                  |
-|-|||
-| `user_id`      | INT (PK)    | Unique User ID               |
-| `username`     | VARCHAR     | Login Username               |
-| `password`     | VARCHAR     | Hashed Password              |
-| `role`         | ENUM        | `ADMIN` / `PASSENGER`        |
-
-### **Transport Table (Flight, Train, Bus)**  
-| Column          | Type        | Description                  |
-|-|||
-| `transport_id` | INT (PK)    | Unique Transport ID          |
-| `type`         | ENUM        | `FLIGHT` / `TRAIN` / `BUS`   |
-| `source`       | VARCHAR     | Departure Location           |
-| `destination`  | VARCHAR     | Arrival Location             |
-| `departure`    | DATETIME    | Departure DateTime           |
-| `arrival`      | DATETIME    | Arrival DateTime             |
-| `totalSeats`   | INT         | Total Seats Available        |
-| `availableSeats` | INT       | Available Seats for Booking  |
-
-### **Bookings Table**  
-| Column        | Type        | Description                        |
-|--|||
-| `booking_id` | INT (PK)    | Unique Booking ID                 |
-| `user_id`    | INT (FK)    | Passenger who booked              |
-| `transport_id` | INT (FK)  | Transport booked                  |
-| `status`     | ENUM        | `CONFIRMED` / `CANCELLED`         |
-| `seatNumber` | INT         | Selected Seat Number              |
-
 
 
 ## ⚙️ **Setup and Installation**  
