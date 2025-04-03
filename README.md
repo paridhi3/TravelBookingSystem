@@ -52,10 +52,11 @@ For Frontend code, click [here](https://github.com/paridhi3/Frontend-Travel-Book
 1. [📄 Abstract](#-abstract)  
 2. [🚀 Features](#-features)  
 3. [🛠 Technologies Used](#-technologies-used)  
-4. [👥 Roles in the System](#-roles-in-the-system)  
-5. [🛢 Database Schema](#-database-schema)  
-6. [🎨 System Architecture](#-system-architecture)  
-7. [⚙️ Setup and Installation](#️-setup-and-installation)  
+4. [👥 Roles in the System](#-roles-in-the-system)
+5. [🏗️Project Architecture](#-project-architecture)
+6. [🔄Project Flow](#-project-flow)
+7. [🛢 Database Schema](#-database-schema)  
+8. [⚙️ Setup and Installation](#️-setup-and-installation)  
 
 ## 📄 **Abstract**  
 
@@ -91,9 +92,8 @@ The **Travel Booking System** provides a seamless way to book flights, trains, a
 ### **6. Admin Functionalities**  
 - **Manage Transport Services**: Create, update, delete transport records  
 - **View All Bookings**  
-- **Predefined Admin Account**: Auto-inserted during startup  
-
----
+- **Predefined Admin Account**: Auto-inserted during startup
+  
 
 ## 🛠 **Technologies Used**  
 
@@ -104,26 +104,38 @@ The **Travel Booking System** provides a seamless way to book flights, trains, a
 - **Scheduler**: Spring Boot Scheduler  
 - **Authentication**: Spring Security (BCrypt Password Encoder)
 
----
 
 ## 👥 **Roles in the System**  
 
-1. **Admin** 🛠  
-   - Add/Edit/Delete transport services  
-   - View and manage all bookings  
+1. **Admin** 🛠
+   - Login/Logout using password key to access Admin Panel​
+   - Add/Delete/Update/View details for Flights, Trains, Buses​
+   - View and manage all bookings
+   - One admin System
 
 2. **Passenger** 🎟  
-   - Search and book transport  
-   - Select seats  
-   - View booking history  
+- Must be 18 years or older  
+- Register with unique credentials (Email ID)  
+- Login/Logout using their Emails and Passwords  
+- Search and filter transports based on type, departure date, source, destination, transport class  
+- Book their desired seats for Flights, Trains, and Buses from the seat layout  
+- Cannot book departed transport types  
+- View booking history  
 
----
+
+## 🏗️ **Project Architecture**  
+
+
+
+## 🔄 **Project Flow**  
+
+
 
 ## 🛢 **Database Schema**  
 
 ### **Users Table**  
 | Column          | Type        | Description                  |
-|----------------|------------|------------------------------|
+|-|||
 | `user_id`      | INT (PK)    | Unique User ID               |
 | `username`     | VARCHAR     | Login Username               |
 | `password`     | VARCHAR     | Hashed Password              |
@@ -131,7 +143,7 @@ The **Travel Booking System** provides a seamless way to book flights, trains, a
 
 ### **Transport Table (Flight, Train, Bus)**  
 | Column          | Type        | Description                  |
-|----------------|------------|------------------------------|
+|-|||
 | `transport_id` | INT (PK)    | Unique Transport ID          |
 | `type`         | ENUM        | `FLIGHT` / `TRAIN` / `BUS`   |
 | `source`       | VARCHAR     | Departure Location           |
@@ -143,22 +155,14 @@ The **Travel Booking System** provides a seamless way to book flights, trains, a
 
 ### **Bookings Table**  
 | Column        | Type        | Description                        |
-|--------------|------------|------------------------------------|
+|--|||
 | `booking_id` | INT (PK)    | Unique Booking ID                 |
 | `user_id`    | INT (FK)    | Passenger who booked              |
 | `transport_id` | INT (FK)  | Transport booked                  |
 | `status`     | ENUM        | `CONFIRMED` / `CANCELLED`         |
 | `seatNumber` | INT         | Selected Seat Number              |
 
----
 
-## 🎨 **System Architecture**  
-
-<div align="center">
-<img src="https://www.plantuml.com/plantuml/png/ZP91IiD048JxLmMIlqPY7NAJTL3D78Ai9CF9XtXdaO-6HZML3fwcuZAh3PhzjzGTnD_9iJP4SD_oKqoh72klgKojA9H4HyhtGm-ZcIqlJhCdmtHCPZXzU-Y43Iafl4CUNbnmYwsHGWBisPQeTmLrgx8HE7QOR7z6Z3wLbfVsLtTA5AB2pE_1rKqWxtffx5fEkZTRMYGizFg3m5xFpyKPnB0XVcGf5B9H9_FhVWJ7H0Z4n3wVwCNBkKb5hWJJh7M5MQWfO1J6OSU-dGO5XoNBm9f5E3dzgRZtuVNpx1ZKPyYZ5DPpxI2xE7F7lPskXx9QW00" alt="Architecture Diagram" width="90%" />
-</div>
-
----
 
 ## ⚙️ **Setup and Installation**  
 
