@@ -42,7 +42,7 @@ Frontend: https://github.com/paridhi3/Frontend-Travel-Booking-System
 - **Predefined Admin Credentials**:
   - A single **admin account** exists with **predefined credentials**, which are **automatically inserted/updated into the database on application startup**.
 -->
-# 🏨 Travel Booking System  
+# 📍🗺️ Travel Booking System  
 
 A **Spring Boot-based Travel Booking System** that allows users to book Flights, Trains, and Buses with real-time availability management. It supports role-based authentication, transport management, and booking functionalities.
 
