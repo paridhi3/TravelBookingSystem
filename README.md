@@ -124,7 +124,7 @@ The **Travel Booking System** provides a seamless way to book flights, trains, a
 
 
 ## 🏗️ **Project Architecture**  
-![Project Architecture]()
+![Project Architecture](proj-arch.jpg)
 
 
 ## 🔄 **Project Flow**  
