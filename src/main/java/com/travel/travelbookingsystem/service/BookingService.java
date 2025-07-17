@@ -88,7 +88,7 @@ public class BookingService {
             throw new IllegalArgumentException("Passenger not found with ID: " + passengerId);
         }
         
-        System.out.println("Booking object: " + booking);
+        System.out.println("Passenger found: " + passenger);
         System.out.println("Transport type: " + booking.getTransportType());
         String transportType = booking.getTransportType().name(); // Extracting transport type
 
@@ -99,6 +99,7 @@ public class BookingService {
         }
 
         // Step 2: Set booking details
+        
         booking.setPassenger(passenger);
         booking.setTransportId(transportId);
         booking.setTravelDate(travelDate);
@@ -113,6 +114,8 @@ public class BookingService {
         if (booking.getPaymentStatus() == null) {
             booking.setPaymentStatus(PaymentStatus.PENDING); // Change based on your enum
         }
+        
+        System.out.println("Booking object: " + booking);
 
         return bookingRepository.save(booking);
     }

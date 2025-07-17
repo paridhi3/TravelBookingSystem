@@ -17,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/admin")
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 public class AdminController {
 	
 	private final AdminService adminService;
