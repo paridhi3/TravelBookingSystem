@@ -5,8 +5,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
+@SpringBootApplication(exclude = {
+	    org.springframework.boot.autoconfigure.security.reactive.ReactiveSecurityAutoConfiguration.class,
+	    org.springframework.boot.autoconfigure.security.reactive.ReactiveUserDetailsServiceAutoConfiguration.class,
+	    org.springframework.boot.autoconfigure.web.reactive.WebFluxAutoConfiguration.class
+	})
 @EnableScheduling
-@SpringBootApplication
 public class TravelbookingsystemApplication {
 
 	public static void main(String[] args) {
