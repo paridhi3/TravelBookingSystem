@@ -60,6 +60,7 @@ public class SecurityConfig {
             .csrf().disable()
 //            .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
             .authorizeHttpRequests(auth -> auth
+                    .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                     .requestMatchers("/api/passengers/register", "/api/passengers/req/login").permitAll() // Allow login and registration
                     .anyRequest().permitAll())
             .formLogin().disable()
